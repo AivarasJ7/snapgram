@@ -13,13 +13,13 @@ export const INITIAL_USER = {
 };
 
 const INITIAL_STATE = {
-    user: INITIAL_USER,
-    isLoading: false,
-    isAuthenticated: false,
-    setUser: () => {},
-    setIsAuthenticated: () => {},
-    checkAuthUser: async () => false as boolean,
-}
+  user: INITIAL_USER,
+  isLoading: false,
+  isAuthenticated: () => {},
+  setUser: () => {},
+  setIsAuthenticated: () => {},
+  checkAuthUser: async () => false as boolean,
+};
 
 const AuthContext = createContext<IContextType>(INITIAL_STATE);
 
@@ -60,21 +60,21 @@ const AuthProvider = ({ children }: { children: React.ReactNode}) => {
 
   useEffect(() => {
     if(
-      localStorage.getItem('cookieFallback') === '[]' || 
+      localStorage.getItem('cookieFallback') === '[]' ||
       localStorage.getItem('cookieFallback') === null
     ) navigate('/sign-in')
 
     checkAuthUser();
     }, []);
 
-  const value = {
-    user,
-    setUser,
-    isLoading,
-    isAuthenticated,
-    setIsAuthenticated,
-    checkAuthUser,
-  }
+    const value = {
+      user,
+      setUser,
+      isLoading,
+      isAuthenticated: setIsAuthenticated,
+      setIsAuthenticated,
+      checkAuthUser,
+  };
 
   return (
     <AuthContext.Provider value={value}>
